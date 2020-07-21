@@ -1,0 +1,87 @@
+#include "Timer.h"
+#include "Final.h"
+#include <string.h>
+
+module FinalC {
+	uses {
+		interface Boot;
+		interface SplitControl;
+		interface Packet;
+    	interface AMSend;
+    	interface Receive;
+    	interface Timer<TMilli> as MilliTimer;
+  	}
+}
+
+implementation {
+  
+	message_t packet; 
+	
+	void sendMsg();
+  	
+  	void sendMsg() {
+	  	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
+		if (mess == NULL) { return; }
+		mess->data = rand()%100;
+		mess->id = TOS_NODE_ID;
+		if(call AMSend.send(1, &packet,sizeof(my_msg_t)) == SUCCESS){
+			dbg("radio_pack","Sending message from %u to 1\n", TOS_NODE_ID);
+		}	  
+	}
+
+	event void Boot.booted() {
+      	dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
+      	call SplitControl.start();
+  	}
+
+  	event void SplitControl.startDone(error_t err){
+    	if(err == SUCCESS) {
+    		dbg("radio", "Radio on!\n");
+    		
+    	    call MilliTimer.startPeriodic(500); 
+    	    
+    	}
+  	}
+  
+	event void SplitControl.stopDone(error_t err){ }
+
+	event void MilliTimer.fired() {
+		dbg("timer","Timer fired at %s.\n", sim_time_string());
+		sendMsg();
+//		my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
+//		if (mess == NULL) { return; }
+//		mess->data = 42;
+//		if(call AMSend.send(1, &packet,sizeof(my_msg_t)) == SUCCESS){
+//			dbg("radio_pack","Sending message from %u to 1... \n", TOS_NODE_ID);
+//			dbg("radio_pack",">>>Pack\n \t Payload length %hhu \n", call Packet.payloadLength(&packet));
+//			dbg_clear("radio_pack","\t Payload Sent\n" );
+//		}
+  	}
+  
+	event void AMSend.sendDone(message_t* buf, error_t error) {
+	    if(&packet == buf && error == SUCCESS){
+	    	dbg("radio_send", "Packet sent at time %s \n", sim_time_string());
+	    } else { 
+	    	dbgerror("radio_send", "Send done error!"); 
+	    }
+	}
+	// 	Function to receive messages from other motes we must save the ID and forward an alert to Nodered with the ID
+	event message_t* Receive.receive(message_t* bufPtr, void* payload, uint8_t len) {	
+		if (len != sizeof(my_msg_t)) { 
+			//error in Packet reception
+			return bufPtr; 
+		} else {
+		  my_msg_t* mess = (my_msg_t*)payload;	  
+		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
+		  dbg("radio_pack", "data: %hhu \n", mess->data); 
+		  dbg("radio_pack", "from node: %u \n", mess->id);
+		  printf("%u\n",mess->id);
+		  printfflush();
+		  return bufPtr;
+		}
+		{ dbgerror("radio_rec", "Receiving error \n"); }
+  	}
+
+}
+
+
