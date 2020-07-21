@@ -1,5 +1,6 @@
 #include "Timer.h"
 #include "Final.h"
+#include "printf.h"
 #include <string.h>
 
 module FinalC {
