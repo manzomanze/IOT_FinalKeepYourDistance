@@ -49,14 +49,7 @@ implementation {
 	event void MilliTimer.fired() {
 		dbg("timer","Timer fired at %s.\n", sim_time_string());
 		sendMsg();
-//		my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
-//		if (mess == NULL) { return; }
-//		mess->data = 42;
-//		if(call AMSend.send(1, &packet,sizeof(my_msg_t)) == SUCCESS){
-//			dbg("radio_pack","Sending message from %u to 1... \n", TOS_NODE_ID);
-//			dbg("radio_pack",">>>Pack\n \t Payload length %hhu \n", call Packet.payloadLength(&packet));
-//			dbg_clear("radio_pack","\t Payload Sent\n" );
-//		}
+
   	}
   
 	event void AMSend.sendDone(message_t* buf, error_t error) {
@@ -76,7 +69,7 @@ implementation {
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
 		  dbg("radio_pack", "data: %hhu \n", mess->data); 
 		  dbg("radio_pack", "from node: %u \n", mess->id);
-		  printf("%u\n",mess->id);
+		  printf("%hhu\n",mess->id);
 		  printfflush();
 		  return bufPtr;
 		}
