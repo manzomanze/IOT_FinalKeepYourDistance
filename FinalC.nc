@@ -69,9 +69,9 @@ implementation {
 			return bufPtr; 
 		} else {
 		  my_msg_t* mess = (my_msg_t*)payload;	  
-		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
-		  dbg("radio_pack", "data: %hhu \n", mess->data); 
-		  dbg("radio_pack", "from node: %u \n", mess->id);
+		  //dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
+		  //dbg("radio_pack", "data: %hhu \n", mess->data); 
+		  //dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("coming from node: ");
 		  printf("%u\n",mess->id);
 		  printfflush();
