@@ -25,8 +25,6 @@ implementation {
 		if (mess == NULL) { return; }
 		mess->data = rand()%100;
 		mess->id = TOS_NODE_ID;
-		printf("mote %u sta inviando!",mess->id);
-		printfflush();
 		if(call AMSend.send(AM_BROADCAST_ADDR, &packet,sizeof(my_msg_t)) == SUCCESS){
 			dbg("radio_pack","Sending message from %u to AM_BROADCAST_ADDR\n", TOS_NODE_ID);
 		}	  
@@ -39,9 +37,7 @@ implementation {
 
   	event void SplitControl.startDone(error_t err){
     	if(err == SUCCESS) {
-    		//dbg("radio", "Radio on!\n");
-    		printf("RADIO ON!");
-    		printfflush();
+    		dbg("radio", "Radio on!\n");
     	    call MilliTimer.startPeriodic(500); 
     	    
     	}
@@ -69,10 +65,10 @@ implementation {
 			return bufPtr; 
 		} else {
 		  my_msg_t* mess = (my_msg_t*)payload;	  
-		  //dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
-		  //dbg("radio_pack", "data: %hhu \n", mess->data); 
-		  //dbg("radio_pack", "from node: %u \n", mess->id);
-		  printf("coming from node: ");
+		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
+		  dbg("radio_pack", "data: %hhu \n", mess->data); 
+		  dbg("radio_pack", "from node: %u \n", mess->id);
+		  printf("coming from node: \t");
 		  printf("%u\n",mess->id);
 		  printfflush();
 		  return bufPtr;
