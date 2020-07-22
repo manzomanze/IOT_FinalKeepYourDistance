@@ -27,8 +27,8 @@ implementation {
 		mess->id = TOS_NODE_ID;
 		printf("mote %u sta inviando!",mess->id);
 		printfflush();
-		if(call AMSend.send(AM_BROADCAST_ADD, &packet,sizeof(my_msg_t)) == SUCCESS){
-			dbg("radio_pack","Sending message from %u to AM_BROADCAST_ADD\n", TOS_NODE_ID);
+		if(call AMSend.send(AM_BROADCAST_ADDR, &packet,sizeof(my_msg_t)) == SUCCESS){
+			dbg("radio_pack","Sending message from %u to AM_BROADCAST_ADDR\n", TOS_NODE_ID);
 		}	  
 	}
 
