@@ -27,8 +27,8 @@ implementation {
 		mess->id = TOS_NODE_ID;
 		printf("mote %u sta inviando!",mess->id);
 		printfflush();
-		if(call AMSend.send(1, &packet,sizeof(my_msg_t)) == SUCCESS){
-			dbg("radio_pack","Sending message from %u to 1\n", TOS_NODE_ID);
+		if(call AMSend.send(AM_BROADCAST_ADD, &packet,sizeof(my_msg_t)) == SUCCESS){
+			dbg("radio_pack","Sending message from %u to AM_BROADCAST_ADD\n", TOS_NODE_ID);
 		}	  
 	}
 
@@ -39,7 +39,7 @@ implementation {
 
   	event void SplitControl.startDone(error_t err){
     	if(err == SUCCESS) {
-    		dbg("radio", "Radio on!\n");
+    		//dbg("radio", "Radio on!\n");
     		printf("RADIO ON!");
     		printfflush();
     	    call MilliTimer.startPeriodic(500); 
