@@ -23,6 +23,4 @@ implementation {
   App.SplitControl -> ActiveMessageC;
   //Interfaces to access package fields
   App.Packet -> AMSenderC;
-  App.PrintfControl -> PrintfC;
-  App.PrintfFlush -> PrintfC;
 }
