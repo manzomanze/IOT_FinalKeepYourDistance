@@ -4,9 +4,9 @@
 typedef nx_struct my_msg {
   nx_uint16_t id;
 } my_msg_t;
-typedef nx_struct IDsNode_t {
+typedef nx_struct IDsNode {
 	nx_uint16_t id;
-	nx_struct IDsNode_t* next;
+	nx_struct IDsNode* next;
 } IDsNode_t;
 
 enum {
