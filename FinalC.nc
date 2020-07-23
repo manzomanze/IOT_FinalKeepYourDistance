@@ -35,6 +35,7 @@ implementation {
 	event void Boot.booted() {
       	dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
       	call SplitControl.start();
+      	Listhead=NULL;
   	}
 
   	event void SplitControl.startDone(error_t err){
@@ -70,14 +71,55 @@ implementation {
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
 		  dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("%u\n",mess->id);
-		  Listhead=malloc(sizeof(IDsNode_t));
-		  Listhead->id=mess->id;
-		  printf("%u\n",Listhead->id);
+		  AddID(mess->id);
+		  printList();
 		  printfflush();
 		  return bufPtr;
 		}
 		{ dbgerror("radio_rec", "Receiving error \n"); }
   	}
+
+  	void AddID(nx_uint16_t value){
+  		IDsNode_t* pointer = Listhead;
+  		if(Listhead == NULL){
+  			Listhead=malloc(sizeof(IDsNode_t));
+  			Listhead->next= NULL;
+  			Listhead->id = value;
+  		}
+  		else{
+  			if(isIDpresent(value)){
+  				return;
+  			}
+	  		else{
+	  			pointer=malloc(sizeof(IDsNode_t));
+	  			pointer->next= Listhead;
+	  			pointer->id = value;
+	  			Listhead=pointer;
+	  		}
+  		}
+  	}
+
+  	bool isIDpresent(nx_uint16_t value){
+  		IDsNode_t* pointer = Listhead;
+  		while(pointer!=NULL){
+  			if(pointer->id==value){
+  				return TRUE;
+  			}
+  		}
+  		return FALSE;
+  	}
+
+  	void printList(){
+  		IDsNode_t* pointer;
+  		if(Listhead!=NULL){
+  			pointer=Listhead;
+  			while(pointer!=NULL){
+  				printf("%u ",pointer->id );
+  			}
+  			printf("\n");
+  			printfflush();
+  		}
+  		return;
 
 }
 
