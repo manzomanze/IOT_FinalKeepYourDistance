@@ -1,4 +1,6 @@
 #include "Final.h"
+#define NEW_PRINTF_SEMANTICS
+#include "printf.h"
 
 configuration FinalAppC {}
 
