@@ -2,6 +2,8 @@
 #include "Final.h"
 #include "printf.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 module FinalC {
 	uses {
@@ -68,6 +70,9 @@ implementation {
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
 		  dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("%u\n",mess->id);
+		  Listhead=malloc(sizeof(IDsNode_t));
+		  Listhead->id=mess->id;
+		  printf("%u\n",Listhead->id);
 		  printfflush();
 		  return bufPtr;
 		}
