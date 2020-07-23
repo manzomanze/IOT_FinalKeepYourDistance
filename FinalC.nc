@@ -17,7 +17,7 @@ module FinalC {
 implementation {
   
 	message_t packet;
-	IDsNode* Listhead
+	IDsNode_t* Listhead
 	
 	void sendMsg();
   	

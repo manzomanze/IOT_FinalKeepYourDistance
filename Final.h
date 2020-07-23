@@ -7,7 +7,7 @@ typedef nx_struct my_msg {
 typedef nx_struct IDsNode {
 	nx_uint16_t id;
 	IDsNode* next;
-}
+}IDsNode_t;
 
 enum {
   AM_MY_MSG = 6,
