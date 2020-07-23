@@ -22,6 +22,8 @@ implementation {
 	IDsNode_t* Listhead;
 	
 	void sendMsg();
+	bool isIDpresent();
+	void printList();
   	
   	void sendMsg() {
 	  	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
@@ -73,7 +75,7 @@ implementation {
   			printfflush();
   		}
   		return;
-
+  	}
 	event void Boot.booted() {
       	dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
       	call SplitControl.start();
