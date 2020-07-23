@@ -33,6 +33,16 @@ implementation {
 	event void Boot.booted() {
       	dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
       	call SplitControl.start();
+      	call PrintfControl.start();
+  	}
+
+  	event void PrintfControl.startDone(error_t error) {
+  		printf("Hi I am writing to you from my TinyOS application!!\n");
+  		call PrintfFlush.flush();
+  	}
+
+  	event void PrintfFlush.flushDone(error_t error) {
+  		
   	}
 
   	event void SplitControl.startDone(error_t err){
