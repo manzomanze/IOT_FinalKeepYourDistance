@@ -24,7 +24,7 @@ implementation {
 	void sendMsg();
 	bool isIDpresent(nx_uint16_t value);
 	void printList();
-	void AddID(nx_uint16_t value)
+	void AddID(nx_uint16_t value);
   	
   	void sendMsg() {
 	  	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
