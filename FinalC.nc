@@ -16,14 +16,14 @@ module FinalC {
 
 implementation {
   
-	message_t packet; 
+	message_t packet;
+	IDsNode* Listhead
 	
 	void sendMsg();
   	
   	void sendMsg() {
 	  	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
 		if (mess == NULL) { return; }
-		mess->data = rand()%100;
 		mess->id = TOS_NODE_ID;
 		if(call AMSend.send(AM_BROADCAST_ADDR, &packet,sizeof(my_msg_t)) == SUCCESS){
 			dbg("radio_pack","Sending message from %u to AM_BROADCAST_ADDR\n", TOS_NODE_ID);
@@ -66,7 +66,6 @@ implementation {
 		} else {
 		  my_msg_t* mess = (my_msg_t*)payload;	  
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
-		  dbg("radio_pack", "data: %hhu \n", mess->data); 
 		  dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("%u\n",mess->id);
 		  printfflush();
