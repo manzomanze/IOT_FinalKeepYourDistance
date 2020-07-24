@@ -72,6 +72,7 @@ implementation {
   			pointer=Listhead;
   			while(pointer!=NULL){
   				printf("%u ",pointer->id );
+  				pointer=pointer->next;
   			}
   			printf("\n");
   			printfflush();
