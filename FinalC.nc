@@ -117,7 +117,8 @@ implementation {
 		  dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("%u\n",mess->id);
 		  AddID(mess->id);
-		  printList();
+		  //printList();
+		  printf("%u ",Listhead->id );
 		  printfflush();
 		  return bufPtr;
 		}
