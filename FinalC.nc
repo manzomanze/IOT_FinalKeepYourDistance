@@ -118,7 +118,11 @@ implementation {
 		  printf("%u\n",mess->id);
 		  AddID(mess->id);
 		  //printList();
-		  printf("%u ",Listhead->id );
+		  printfflush();
+		  printf("first value saved %u ",Listhead->id );
+		  if(Listhead->next!=NULL){
+		  	printf("second value saved %u ",Listhead->next->id );
+		  }
 		  printfflush();
 		  return bufPtr;
 		}
