@@ -61,6 +61,7 @@ implementation {
   			if(pointer->id==value){
   				return TRUE;
   			}
+  			pointer = pointer->next;
   		}
   		return FALSE;
   	}
