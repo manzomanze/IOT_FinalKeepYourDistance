@@ -119,7 +119,8 @@ implementation {
 		  dbg("radio_pack", "from node: %u \n", mess->id);
 		  printf("%u\n",mess->id);
 		  AddID(mess->id);
-		  printList();
+		  printfflush();
+		  //printList();
 		  return bufPtr;
 		}
 		{ dbgerror("radio_rec", "Receiving error \n"); }
