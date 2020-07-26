@@ -117,8 +117,8 @@ implementation {
 		  my_msg_t* mess = (my_msg_t*)payload;	  
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
 		  dbg("radio_pack", "from node: %u \n", mess->id);
-		  printf("%u%u",TOS_NODE_ID,mess->id);
-		  //printf("%u",mess->id);
+		  printf("%u ",TOS_NODE_ID);
+		  printf("%u",mess->id);
 		  AddID(mess->id);
 		  printfflush();
 		  //printList();
