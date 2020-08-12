@@ -10,9 +10,9 @@ module FinalC {
 		interface Boot;
 		interface SplitControl;
 		interface Packet;
-    	interface AMSend;
-    	interface Receive;
-    	interface Timer<TMilli> as MilliTimer;
+		interface AMSend;
+		interface Receive;
+		interface Timer<TMilli> as MilliTimer;
   	}
 }
 
@@ -38,27 +38,25 @@ implementation {
 	void AddID(nx_uint16_t value){
   		IDsNode_t* pointer = Listhead;
   		if(Listhead == NULL){
-  			Listhead=malloc(sizeof(IDsNode_t));
-  			Listhead->next= NULL;
+  			Listhead = malloc(sizeof(IDsNode_t));
+  			Listhead->next = NULL;
   			Listhead->id = value;
-  		}
-  		else{
+  		} else {
   			if(isIDpresent(value)){
   				return;
-  			}
-	  		else{
-	  			pointer=malloc(sizeof(IDsNode_t));
-	  			pointer->next= Listhead;
+  			} else {
+	  			pointer = malloc(sizeof(IDsNode_t));
+	  			pointer->next = Listhead;
 	  			pointer->id = value;
-	  			Listhead=pointer;
+	  			Listhead = pointer;
 	  		}
   		}
   	}
 
   	bool isIDpresent(nx_uint16_t value){
   		IDsNode_t* pointer = Listhead;
-  		while(pointer!=NULL){
-  			if(pointer->id==value){
+  		while(pointer != NULL){
+  			if(pointer->id == value){
   				return TRUE;
   			}
   			pointer = pointer->next;
@@ -68,29 +66,29 @@ implementation {
 
   	void printList(){
   		IDsNode_t* pointer;
-  		if(Listhead!=NULL){
-  			pointer=Listhead;
-  			while(pointer!=NULL){
+  		if(Listhead != NULL){
+  			pointer = Listhead;
+  			while(pointer != NULL){
   				printf("%u ",pointer->id );
-  				pointer=pointer->next;
+  				pointer = pointer->next;
   			}
   			printf("\n");
   			printfflush();
   		}
   		return;
   	}
+	
 	event void Boot.booted() {
-      	dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
-      	call SplitControl.start();
-      	Listhead=NULL;
+		dbg("boot","Application booted on node %u.\n", TOS_NODE_ID);
+		call SplitControl.start();
+		Listhead = NULL;
   	}
 
   	event void SplitControl.startDone(error_t err){
-    	if(err == SUCCESS) {
-    		dbg("radio", "Radio on!\n");
-    	    call MilliTimer.startPeriodic(500); 
-    	    
-    	}
+		if(err == SUCCESS) {
+			dbg("radio", "Radio on!\n");
+			call MilliTimer.startPeriodic(500); 
+		}
   	}
   
 	event void SplitControl.stopDone(error_t err){ }
@@ -108,7 +106,8 @@ implementation {
 	    	dbgerror("radio_send", "Send done error!"); 
 	    }
 	}
-	// 	Function to receive messages from other motes we must save the ID and forward an alert to Nodered with the ID
+	
+	// Function to receive messages from other motes we must save the ID and forward an alert to Nodered with the ID
 	event message_t* Receive.receive(message_t* bufPtr, void* payload, uint8_t len) {	
 		if (len != sizeof(my_msg_t)) { 
 			//error in Packet reception
@@ -117,7 +116,7 @@ implementation {
 		  my_msg_t* mess = (my_msg_t*)payload;	  
 		  dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
 		  dbg("radio_pack", "from node: %u \n", mess->id);
-		  printf("%u",mess->id);
+		  printf("%u\n",mess->id);
 		  AddID(mess->id);
 		  printfflush();
 		  //printList();
@@ -125,9 +124,4 @@ implementation {
 		}
 		{ dbgerror("radio_rec", "Receiving error \n"); }
   	}
-
-
-
 }
-
-
